@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nevel — Your Claude Code work, shared with the whole team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ffffff; --ink:#0a0a0a; --carbon:#171717;
+  --smoke-50:#f5f5f5; --smoke-100:#e5e5e5; --smoke-200:#d4d4d4;
+  --smoke-400:#a3a3a3; --smoke-500:#737373; --smoke-600:#525252; --smoke-700:#404040;
+  --orange:#ea580c; --green:#16a34a; --violet:#7c3aed; --blue:#3b82f6;
+  --font-display:'Inter',ui-sans-serif,system-ui,sans-serif;
+  --font-ui:'Inter',ui-sans-serif,system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --shadow-subtle:rgba(0,0,0,0.05) 0px 1px 2px 0px;
+  --shadow-sm:rgba(0,0,0,0.1) 0px 4px 6px -1px, rgba(0,0,0,0.1) 0px 2px 4px -2px;
+  --maxw:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-ui); color:var(--ink); background:var(--paper);
+  font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  padding-bottom:96px;
+}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Announcement banner ---------- */
+.banner-wrap{display:flex;justify-content:center;padding:24px 24px 0}
+.banner{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--paper);border:1px solid var(--smoke-100);
+  border-radius:9999px;padding:6px 16px;font-size:13px;color:var(--smoke-600);
+}
+.banner b{color:var(--ink);font-weight:600}
+.banner .arrow{color:var(--smoke-500)}
+
+/* ---------- Shell: two-pane ---------- */
+.shell{
+  max-width:var(--maxw);margin:0 auto;padding:24px;
+  display:grid;grid-template-columns:minmax(340px,420px) 1fr;gap:48px;align-items:start;
+}
+
+/* ---------- Sticky hero (left) ---------- */
+.hero{position:sticky;top:24px;align-self:start}
+.eyebrow{
+  font-size:13px;font-weight:500;color:var(--smoke-500);
+  letter-spacing:.01em;margin-bottom:20px;
+}
+.hero h1{
+  font-family:var(--font-display);font-weight:600;
+  font-size:48px;line-height:1.05;letter-spacing:-0.02em;color:var(--ink);
+  margin-bottom:28px;
+}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.bullets li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--smoke-700)}
+.bullets .ic{flex:0 0 18px;width:18px;height:18px;margin-top:1px;color:var(--smoke-500)}
+.btn-row{display:flex;gap:10px;margin-bottom:44px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;border-radius:9999px;
+  font-family:var(--font-ui);font-size:14px;font-weight:500;cursor:pointer;
+  padding:9px 18px;border:1px solid transparent;transition:transform .08s ease, background .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:#000;color:#fff;box-shadow:var(--shadow-subtle)}
+.btn-primary:hover{background:var(--carbon)}
+.btn-ghost{background:var(--paper);color:var(--ink);border:1px solid var(--smoke-200)}
+.btn-ghost:hover{background:var(--smoke-50)}
+
+/* index */
+.index-label{
+  font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--smoke-500);margin-bottom:12px;
+}
+.index{list-style:none;border-top:1px solid var(--smoke-100)}
+.index li a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 4px;border-bottom:1px solid var(--smoke-100);
+  font-size:15px;font-weight:500;color:var(--smoke-500);transition:color .15s ease;
+}
+.index li a .num{font-family:var(--font-mono);font-size:12px;color:var(--smoke-400)}
+.index li a:hover{color:var(--ink)}
+.index li a.active{color:var(--ink)}
+.index li a.active .num{color:var(--ink)}
+.index li a.active{position:relative}
+.index li a.active::before{
+  content:"";position:absolute;left:-12px;top:50%;transform:translateY(-50%);
+  width:3px;height:18px;background:var(--ink);border-radius:2px;
+}
+
+/* ---------- Showcase (right) ---------- */
+.showcase{display:flex;flex-direction:column;gap:64px}
+.block{scroll-margin-top:24px}
+.tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--paper);border:1px solid var(--smoke-100);border-radius:9999px;
+  padding:5px 12px;font-size:12px;font-weight:500;color:var(--ink);margin-bottom:16px;
+}
+.tag .sq{width:8px;height:8px;border-radius:2px;display:inline-block}
+.sq.orange{background:var(--orange)} .sq.green{background:var(--green)} .sq.violet{background:var(--violet)}
+.block h2{
+  font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.15;
+  letter-spacing:-0.02em;margin-bottom:10px;
+}
+.block p.lead{font-size:16px;color:var(--smoke-600);max-width:640px;margin-bottom:24px}
+
+/* product card */
+.card{
+  border:1px solid var(--smoke-100);border-radius:16px;background:var(--paper);
+  box-shadow:var(--shadow-sm);overflow:hidden;
+}
+.card-bar{
+  display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--smoke-100);
+  background:var(--smoke-50);
+}
+.dot{width:10px;height:10px;border-radius:9999px;background:var(--smoke-200)}
+.card-bar .path{margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--smoke-500)}
+.card-body{padding:16px}
+
+/* file rows */
+.frow{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:8px}
+.frow+.frow{border-top:1px solid var(--smoke-100)}
+.frow .fl{display:flex;align-items:center;gap:10px;font-size:14px}
+.frow .ficon{width:16px;height:16px;color:var(--smoke-500)}
+.frow .fname{font-family:var(--font-mono);font-size:13px;color:var(--ink)}
+.meta{display:flex;align-items:center;gap:8px}
+.chip{
+  font-family:var(--font-mono);font-size:11px;font-weight:500;
+  border-radius:9999px;padding:3px 8px;background:var(--smoke-50);
+  border:1px solid var(--smoke-100);color:var(--smoke-600);
+}
+.chip.green{color:var(--green);background:#dcfce7;border-color:#bbf7d0}
+.owner{font-size:12px;color:var(--smoke-500)}
+
+/* terminal */
+.term{background:#0a0a0a;border-radius:12px;padding:16px;font-family:var(--font-mono);font-size:13px;line-height:1.7;color:#e5e5e5}
+.term .pr{color:var(--smoke-400)}
+.term .cmd{color:#fff}
+.term .ok{color:#4ade80}
+.term .mut{color:var(--smoke-500)}
+.term .lnk{color:#60a5fa}
+.term .warn{color:#fb923c}
+
+/* share page preview */
+.sharepage{border:1px solid var(--smoke-100);border-radius:12px;overflow:hidden;margin-top:14px}
+.sp-head{padding:18px 18px 12px;border-bottom:1px solid var(--smoke-100)}
+.sp-head .t{font-family:var(--font-display);font-weight:600;font-size:18px}
+.sp-head .u{font-family:var(--font-mono);font-size:12px;color:var(--smoke-500);margin-top:4px}
+.sp-body{padding:16px 18px;font-size:13px;color:var(--smoke-600)}
+.sp-body .line{height:8px;border-radius:4px;background:var(--smoke-100);margin:8px 0}
+.sp-body .line.short{width:55%}
+
+/* usage bars */
+.usage{display:flex;flex-direction:column;gap:12px}
+.urow{display:grid;grid-template-columns:140px 1fr 44px;align-items:center;gap:12px}
+.uname{font-family:var(--font-mono);font-size:12px;color:var(--ink)}
+.ubar{height:8px;border-radius:9999px;background:var(--smoke-100);overflow:hidden}
+.ufill{height:100%;border-radius:9999px;background:var(--violet)}
+.uval{font-size:12px;color:var(--smoke-500);text-align:right}
+
+/* safety */
+.safe{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid #fed7aa;background:#fff7ed;border-radius:10px}
+.safe .ic{color:var(--orange)}
+.safe .txt{font-size:13px;color:var(--smoke-700)}
+.safe .txt b{color:var(--ink)}
+
+/* versions */
+.ver{display:flex;flex-direction:column}
+.vrow{display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-bottom:1px solid var(--smoke-100);font-size:13px}
+.vrow:last-child{border-bottom:none}
+.vrow .vl{display:flex;align-items:center;gap:10px}
+.vtag{font-family:var(--font-mono);font-size:11px;color:var(--smoke-500)}
+.vcur{color:var(--green);font-weight:500;font-size:12px}
+.restore{font-size:12px;color:var(--blue);cursor:pointer}
+
+/* closing */
+.closing{max-width:var(--maxw);margin:96px auto 0;padding:0 24px;text-align:center}
+.closing h2{font-family:var(--font-display);font-weight:600;font-size:40px;letter-spacing:-0.02em;margin-bottom:14px}
+.closing p{color:var(--smoke-600);margin-bottom:24px}
+.closing .btn-row{justify-content:center;margin-bottom:0}
+.closing .sub{font-size:13px;color:var(--smoke-500);margin-top:14px}
+
+/* ---------- Floating dock nav ---------- */
+.dock{
+  position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:50;
+  display:flex;align-items:center;gap:6px;
+  background:var(--paper);border:1px solid var(--smoke-100);
+  border-radius:9999px;padding:8px 8px 8px 16px;box-shadow:var(--shadow-sm);
+}
+.dock .logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding-right:8px}
+.dock .logo .mark{width:16px;height:16px;border-radius:9999px;background:var(--ink);position:relative}
+.dock .logo .mark::after{content:"";position:absolute;inset:4px 4px auto auto;width:4px;height:8px;background:var(--paper);border-radius:1px}
+.dock .navitem{position:relative}
+.dock .navitem>a{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:var(--ink);padding:8px 12px;border-radius:9999px}
+.dock .navitem>a:hover{background:var(--smoke-50)}
+.dock .navitem>a .car{color:var(--smoke-500);font-size:10px}
+.dock .dock-cta{margin-left:4px}
+
+/* dropdown menus (open upward) */
+.menu{
+  position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) translateY(6px);
+  width:300px;background:var(--paper);border:1px solid var(--smoke-100);
+  border-radius:16px;box-shadow:var(--shadow-sm);padding:8px;
+  opacity:0;visibility:hidden;transition:opacity .15s ease, transform .15s ease;
+}
+.navitem:hover .menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.menu .mlabel{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--smoke-500);padding:8px 10px 6px}
+.mitem{display:flex;gap:11px;align-items:flex-start;padding:9px 10px;border-radius:10px}
+.mitem:hover{background:var(--smoke-50)}
+.mitem .mi-ic{flex:0 0 16px;width:16px;height:16px;margin-top:2px;color:var(--smoke-500)}
+.mitem .mt{font-size:13px;font-weight:600;color:var(--ink)}
+.mitem .md{font-size:12px;color:var(--smoke-500);margin-top:1px}
+
+/* ---------- responsive ---------- */
+@media(max-width:880px){
+  .shell{grid-template-columns:1fr;gap:40px}
+  .hero{position:static}
+  .hero h1{font-size:38px}
+  .index{display:none}
+  .dock{gap:2px;padding:6px 6px 6px 12px}
+  .dock .navitem.hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="banner-wrap">
+  <div class="banner"><b>Nevel is in early access</b> — join the waitlist <span class="arrow">→</span></div>
+</div>
+
+<div class="shell">
+
+  <!-- LEFT: sticky hero -->
+  <aside class="hero">
+    <div class="eyebrow">Introducing Nevel</div>
+    <h1>Your Claude Code work, shared with the whole team.</h1>
+    <ul class="bullets">
+      <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>Your team's skills and rules, synced automatically</li>
+      <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Files and agent outputs, all in one shared folder</li>
+      <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/><path d="M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></svg>Share anything as a clean link in one command</li>
+      <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>Secret-scanned shares · sessions stay on your machine</li>
+    </ul>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#">Install Nevel <span>→</span></a>
+      <a class="btn btn-ghost" href="#">Read the docs</a>
+    </div>
+
+    <div class="index-label">What Nevel handles for you</div>
+    <ul class="index" id="index">
+      <li><a href="#s1" data-target="s1">Team Skills <span class="num">01</span></a></li>
+      <li><a href="#s2" data-target="s2">Shared Outputs <span class="num">02</span></a></li>
+      <li><a href="#s3" data-target="s3">One-Step Sharing <span class="num">03</span></a></li>
+      <li><a href="#s4" data-target="s4">Instant Setup <span class="num">04</span></a></li>
+      <li><a href="#s5" data-target="s5">Usage Signals <span class="num">05</span></a></li>
+      <li><a href="#s6" data-target="s6">Safe by Default <span class="num">06</span></a></li>
+      <li><a href="#s7" data-target="s7">Versions &amp; Rollback <span class="num">07</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- RIGHT: showcase -->
+  <main class="showcase">
+
+    <!-- 01 -->
+    <section class="block" id="s1">
+      <span class="tag"><span class="sq orange"></span>Context</span>
+      <h2>Team Skills</h2>
+      <p class="lead">The skills and rules you write live in one folder and sync to everyone. Add one, run <code style="font-family:var(--font-mono);font-size:13px">sync</code>, and your whole team has it.</p>
+      <div class="card">
+        <div class="card-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="path">~/Nevel/team/skills</span></div>
+        <div class="card-body" style="padding:8px">
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg><span class="fname">code-review/</span></div><div class="meta"><span class="chip">v4</span><span class="owner">alex</span></div></div>
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg><span class="fname">pr-summary/</span></div><div class="meta"><span class="chip">v2</span><span class="owner">mira</span></div></div>
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg><span class="fname">release-notes/</span></div><div class="meta"><span class="chip">v7</span><span class="owner">you</span></div></div>
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg><span class="fname">incident-triage/</span></div><div class="meta"><span class="chip">v1</span><span class="owner">sam</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="block" id="s2">
+      <span class="tag"><span class="sq green"></span>Sharing</span>
+      <h2>Shared Outputs</h2>
+      <p class="lead">Whatever Claude generates lands in the project's <code style="font-family:var(--font-mono);font-size:13px">outputs/</code> folder, so your teammates can actually find the report you made yesterday.</p>
+      <div class="card">
+        <div class="card-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="path">~/Nevel/projects/aka.space/outputs</span></div>
+        <div class="card-body" style="padding:8px">
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/></svg><span class="fname">q2-review.md</span></div><span class="chip green">visible to team</span></div>
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/></svg><span class="fname">churn-analysis.csv</span></div><span class="chip green">visible to team</span></div>
+          <div class="frow"><div class="fl"><svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15H6z"/></svg><span class="fname">launch-plan.md</span></div><span class="chip green">visible to team</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="block" id="s3">
+      <span class="tag"><span class="sq green"></span>Sharing</span>
+      <h2>One-Step Sharing</h2>
+      <p class="lead">Run <code style="font-family:var(--font-mono);font-size:13px">nevel share</code> on any file and get a clean web page back. A report reads like an article, a CSV becomes a table, a skill comes with an install button.</p>
+      <div class="term">
+        <div><span class="pr">$</span> <span class="cmd">nevel share ./outputs/q2-review.md</span></div>
+        <div><span class="mut">scanning for secrets… </span><span class="ok">clean ✓</span></div>
+        <div><span class="mut">published →</span> <span class="lnk">https://share.navl.ai/q2-review</span></div>
+      </div>
+      <div class="sharepage">
+        <div class="sp-head"><div class="t">Q2 Review</div><div class="u">share.navl.ai/q2-review</div></div>
+        <div class="sp-body">
+          <div class="line"></div><div class="line"></div><div class="line short"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="block" id="s4">
+      <span class="tag"><span class="sq orange"></span>Context</span>
+      <h2>Instant Setup</h2>
+      <p class="lead">Install Nevel and your team's skills, rules, and settings are already there. New hires run one <code style="font-family:var(--font-mono);font-size:13px">sync</code> and start where everyone else is.</p>
+      <div class="term">
+        <div><span class="pr">$</span> <span class="cmd">nevel init</span></div>
+        <div><span class="mut">backing up ~/.claude … </span><span class="ok">done ✓</span></div>
+        <div><span class="mut">pulling team skills … </span><span class="ok">5 installed ✓</span></div>
+        <div><span class="mut">installing rules, hooks, settings … </span><span class="ok">done ✓</span></div>
+        <div style="margin-top:6px"><span class="ok">You're set up. Open Claude Code in any project.</span></div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="block" id="s5">
+      <span class="tag"><span class="sq violet"></span>Insight</span>
+      <h2>Usage Signals</h2>
+      <p class="lead">See which skills your team actually runs and which are dead weight. None of it touches your raw sessions.</p>
+      <div class="card"><div class="card-body">
+        <div class="usage">
+          <div class="urow"><span class="uname">code-review</span><div class="ubar"><div class="ufill" style="width:92%"></div></div><span class="uval">48</span></div>
+          <div class="urow"><span class="uname">pr-summary</span><div class="ubar"><div class="ufill" style="width:64%"></div></div><span class="uval">31</span></div>
+          <div class="urow"><span class="uname">release-notes</span><div class="ubar"><div class="ufill" style="width:38%"></div></div><span class="uval">18</span></div>
+          <div class="urow"><span class="uname">incident-triage</span><div class="ubar"><div class="ufill" style="width:6%"></div></div><span class="uval">2</span></div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 06 -->
+    <section class="block" id="s6">
+      <span class="tag"><span class="sq violet"></span>Security</span>
+      <h2>Safe by Default</h2>
+      <p class="lead">Every public share gets scanned for secrets first. Drafts and sessions never sync, and your code stays in your real repo.</p>
+      <div class="card"><div class="card-body">
+        <div class="safe">
+          <svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div class="txt"><b>API key found in line 14</b> — share blocked. Fix it before publishing.</div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 07 -->
+    <section class="block" id="s7">
+      <span class="tag"><span class="sq violet"></span>Insight</span>
+      <h2>Versions &amp; Rollback</h2>
+      <p class="lead">Every skill and shared file has an owner and a version, so there's one real copy instead of nine. Roll back when something breaks.</p>
+      <div class="card">
+        <div class="card-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="path">code-review · history</span></div>
+        <div class="ver">
+          <div class="vrow"><div class="vl"><span class="vtag">v4</span> tightened the diff-size guard</div><span class="vcur">current</span></div>
+          <div class="vrow"><div class="vl"><span class="vtag">v3</span> added language detection</div><span class="restore">restore</span></div>
+          <div class="vrow"><div class="vl"><span class="vtag">v2</span> first team version</div><span class="restore">restore</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Closing CTA -->
+<section class="closing">
+  <h2>Give your team's work one home.</h2>
+  <p>Install Nevel, drop your skills and files in, and stop hunting for the thing you made last week.</p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="#">Install Nevel <span>→</span></a>
+    <a class="btn btn-ghost" href="#">Talk to us</a>
+  </div>
+  <div class="sub">Free to start · no credit card</div>
+</section>
+
+<!-- Floating dock -->
+<nav class="dock">
+  <span class="logo"><span class="mark"></span>Nevel</span>
+
+  <div class="navitem hide-sm">
+    <a href="#">Features <span class="car">▴</span></a>
+    <div class="menu">
+      <div class="mlabel">Features</div>
+      <a class="mitem" href="#s1"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg><div><div class="mt">Skills</div><div class="md">Your team's shared skill library.</div></div></a>
+      <a class="mitem" href="#s1"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><div><div class="mt">Rules</div><div class="md">Shared CLAUDE.md and scoped rules, in sync.</div></div></a>
+      <a class="mitem" href="#s3"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1"/></svg><div><div class="mt">Sharing</div><div class="md">Turn any file into a clean link.</div></div></a>
+      <a class="mitem" href="#s5"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M10 19v-8M16 19v-5M22 19V9"/></svg><div><div class="mt">Telemetry</div><div class="md">See which skills get used.</div></div></a>
+    </div>
+  </div>
+
+  <div class="navitem hide-sm">
+    <a href="#">Use Cases <span class="car">▴</span></a>
+    <div class="menu">
+      <div class="mlabel">Who it's for</div>
+      <a class="mitem" href="#"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg><div><div class="mt">AI champions</div><div class="md">Stop copy-pasting your skills around.</div></div></a>
+      <a class="mitem" href="#"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><div><div class="mt">Engineering teams</div><div class="md">One setup everyone shares.</div></div></a>
+      <a class="mitem" href="#"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><div><div class="mt">Team leads</div><div class="md">Onboard new hires in a day.</div></div></a>
+      <a class="mitem" href="#"><svg class="mi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/></svg><div><div class="mt">Platform / DevEx</div><div class="md">Standardize tooling, see what's used.</div></div></a>
+    </div>
+  </div>
+
+  <div class="navitem hide-sm"><a href="#">Pricing</a></div>
+  <a class="btn btn-primary dock-cta" href="#">Install Nevel</a>
+</nav>
+
+<script>
+const links = document.querySelectorAll('#index a');
+const map = {};
+links.forEach(a=>map[a.dataset.target]=a);
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a = map[e.target.id];
+      if(a) a.classList.add('active');
+    }
+  });
+},{rootMargin:'-45% 0px -45% 0px',threshold:0});
+document.querySelectorAll('.block').forEach(b=>obs.observe(b));
+</script>
+
+</body>
+</html>
